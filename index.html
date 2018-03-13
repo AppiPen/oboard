@@ -1,0 +1,830 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+  <script src='/socket.io/socket.io.js'></script>     
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OnBoard - welcome your employees right!</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/flexslider.css">
+<link rel="stylesheet" href="css/jquery.fancybox.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/font-icon.css">
+<link rel="stylesheet" href="css/animate.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+<style>
+  .main-section{
+  width: 300px;
+  position: fixed;
+  right:50px;
+  bottom:-350px;
+}
+.first-section:hover{
+  cursor: pointer;
+}
+.open-more{
+  bottom:0px;
+  transition:2s;
+}
+.border-chat{
+  border:1px solid #FD8468;
+  margin: 0px;
+}
+.first-section{
+  background-color:#FD8468;
+}
+.first-section p{
+  color:#fff;
+  margin:0px;
+  padding: 10px 0px;
+}
+.first-section p:hover{
+  color:#fff;
+  cursor: pointer;
+}
+.right-first-section{
+   text-align: right;
+}
+.right-first-section i{
+  color:#fff;
+  font-size: 15px;
+  padding: 12px 3px;
+}
+.right-first-section i:hover{
+  color:#fff;
+}
+.chat-section ul li{
+  list-style: none;
+  margin-top:10px;
+  position: relative;
+}
+.chat-section{
+  overflow-y:scroll;
+  height:300px;
+}
+.chat-section ul{
+  padding: 0px;
+}
+.left-chat img,.right-chat img{
+  width:50px;
+  height:50px;
+  float:left;
+  margin:0px 10px;
+}
+.right-chat img{
+  float:right;
+}
+.second-section{
+  padding: 0px;
+  margin: 0px;
+  background-color: #F3F3F3;
+  height: 300px;
+}
+.left-chat,.right-chat{
+  overflow: hidden;
+}
+.left-chat p,.right-chat p{
+  background-color:#FD8468;
+  padding: 10px;
+  color:#fff;
+  border-radius: 5px; 
+  float:left;
+  width:60%;
+  margin-bottom:20px;
+}
+.left-chat span,.right-chat span{
+  position: absolute;
+  left:70px;
+  top:60px;
+  color:#B7BCC5;
+}
+.right-chat span{
+  left:45px;
+}
+.right-chat p{
+  float:right;
+  background-color: #FFFFFF;
+  color:#FD8468;
+}
+.third-section{
+  border-top: 1px solid #EEEEEE;
+}
+.text-bar input{
+  width:90%;
+  margin-left:-15px;
+  padding:10px 10px;
+  border:1px solid #fff;
+}
+.text-bar a i{
+  background-color:#FD8468;
+  color:#fff;
+  width:30px;
+  height:30px;
+  padding:7px 0px;
+  border-radius: 50%;
+  text-align: center;
+}
+.left-chat:before{
+  content: " ";
+  position:absolute;
+  top:0px;
+  left:55px;
+  bottom:150px;
+  border:15px solid transparent;
+  border-top-color:#FD8468; 
+}
+.right-chat:before{
+  content: " ";
+  position:absolute;
+  top:0px;
+  right:55px;
+  bottom:150px;
+  border:15px solid transparent;
+  border-top-color:#fff; 
+}
+
+
+
+
+
+
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    border-top: none;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+}
+
+{
+  box-sizing: border-box;
+}
+
+#myInput {
+  width: 65%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myInput2 {
+  border: none;
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  float: left;
+  font-size: 16px;
+}
+
+/* Style the "Add" button */
+.addBtn {
+  padding: 10px;
+  width: 23%;
+  background: #d9d9d9;
+  color: #555;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.addBtn:hover {
+  background-color: #bbb; 
+}
+
+#myUL {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myUL li {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block
+}
+
+#myUL li:hover:not(.header) {
+  background-color: #eee;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #f6f6f6;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+
+</head>
+
+
+
+<div id="mySidenav" class="sidenav">
+ <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+ 
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search.." title="Type in a name">
+
+<div id="myDIV">
+  <input type="text" id="myInput2" placeholder="Add Number">
+  <span onclick="newElement()" class="addBtn">+</span>
+</div>
+
+<br>
+<br>
+<br>
+
+<ul id="myUL"></ul>
+
+<ul id="myUL3">
+</ul>
+
+</div>
+
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Open Contacts</span>
+
+
+<body>
+<!-- intro section -->
+<section class="banner" height="22" id="intro" >
+  <div class="container">
+    <div class="col-md-8 col-md-offset-2 text-center">
+       <div class="banner-text text-center">
+         <h1>OnBoard</h1>
+        <p ><b ><font size="6">welcome your employees right</font></b></p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- intro section --> 
+
+
+
+<div class="tab">
+  
+  <button class="tablinks" onclick="openCity(event, 'Onboard')" id="defaultOpen">Onboard</button>
+  <button class="tablinks" onclick="openCity(event, 'Recruit')">Recruit</button>
+  <button class="tablinks" onclick="openCity(event, 'Engauge')">Engauge</button>
+ 
+</div>
+
+<!-- text message section -->
+<section id="textSMS" class="section2">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 conForm">
+        <div id="message"></div>
+        <div id="Onboard" class="tabcontent">
+          <!--52.202.46.197:3000-->
+          <!--localhost:3000-->         
+          <form method="get" id="textForm" action="http://52.202.46.197:3000/Send">
+          <input type="text" name="phoneNumber" value="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" placeholder="Employee Mobile Phone # (Numbers Only)" >
+          <textarea name="welcomemessage" cols="" rows="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+Hi (employee name),
+
+We're excited for your first day so we've sent you some useful contacts. Let us know if you have any questions and welcome aboard!!
+
+Cendy</textarea>      
+          <div class= "col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+           <!-- <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left">Contacts to send</label> -->
+           <lable class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left" style="margin: 10; padding 10;  height:23px"/ ><input type="checkbox" name="HR" value="true"  checked>HR</lable>
+           <lable class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left" style="margin: 10; padding 10;  height:23px"/><input type="checkbox" name="IT" value="true" checked>IT</lable>
+           <lable class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left" style="margin: 10; padding 10;  height:46px"/><input type="checkbox" name="Security" value="true"checked>Security</lable>
+           <lable class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left" style="margin: 10; padding 10;  height:92px"/><input type="checkbox" name="Pic" value="true" checked>Include photo</lable>
+          </div>
+         <input type="submit" formmethod="post"  formaction="http://52.202.46.197:3000/Send" id="submit" name="send" class="submitBnt" value="      Send      " onclick="return confirm('Are you sure?')">
+         <!--52.202.46.197:3000-->
+         <!--localhost:3000-->
+         </form>
+        </div>
+        <div id="Recruit" class="tabcontent">
+          <!--52.202.46.197:3000-->
+          <!--localhost:3000-->
+          <form method="get" id="textForm" action="http://52.202.46.197:3000/Send">
+          <input type="text" name="phoneNumber" value="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" placeholder="Employee Mobile Phone # (Numbers Only)" >
+          <textarea name="welcomemessage" cols="" rows="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+Hi (recruit name),
+
+I was looking at your resume on dice.com and think you'd be a great fit for a position I have open https://goo.gl/tTgb49
+
+Are you free for a quick chat sometime today?
+
+Cendy</textarea>      
+         <input type="submit" formmethod="post"  formaction="http://52.202.46.197:3000/Send" id="submit" name="send" class="submitBnt" value="      Send      " onclick="return confirm('Are you sure?')">
+         <!--52.202.46.197:3000-->
+         <!--localhost:3000-->
+         </form>
+        </div>
+
+          <div id="Engauge" class="tabcontent">
+          <!--52.202.46.197:3000-->
+          <!--localhost:3000-->
+          <form method="get" id="textForm" action="http://52.202.46.197:3000/Send">
+          <input type="text" name="phoneNumber" value="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" placeholder="Employee Mobile Phone # (Numbers Only)" >
+          <textarea name="welcomemessage" cols="" rows="" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+Hi (current employee),
+
+Before you ask, yes this is a bot but I assure you I'm a real person.
+
+I'd like to ask you a personal question to help me understand how to make a tailored work-life balance environment for you.  If you had $100 million, what is something you'd want to have/do/be?
+
+Your answers don't need to be long but I hope you'll give it some thought so that your managers and I can use them to provide a good work-life balance and incentives.
+
+Cendy
+</textarea>      
+         <input type="submit" formmethod="post"  formaction="http://52.202.46.197:3000/Send" id="submit" name="send" class="submitBnt" value="      Send      " onclick="return confirm('Are you sure?')">
+         <!--52.202.46.197:3000-->
+         <!--localhost:3000-->
+         </form>
+        </div>
+
+
+
+      </div>
+    </div >
+        <h3 class="col-md-8 col-md-offset-2 text-center">Or text "welcome" to (240) 660 - 4113</h3>
+        <br>
+  </div>
+</section>
+
+
+<!-- contact section --> 
+<section id="conact" class="intro">
+  <div class="container section2">
+    <div class="col-md-8 col-md-offset-2 text-center">
+      <br>
+      <h3>info@onboard.fyi</h3>
+      <br>
+    </div>
+  </div>
+</section>
+
+<div class="main-section">
+  <div class="row border-chat">
+    <div class="col-md-12 col-sm-12 col-xs-12 first-section">
+      <div class="row">
+        <div class="col-md-8 col-sm-6 col-xs-6 left-first-section">
+          <p id="chatTile">Chat</p>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-6 right-first-section">
+          <a href="#"><i class="fa fa-minus" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row border-chat">
+    <div class="col-md-12 col-sm-12 col-xs-12 second-section">
+      <div class="chat-section">
+        <ul id="myUL2">
+       </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row border-chat">
+    <div class="col-md-12 col-sm-12 col-xs-12 third-section">
+      <div class="text-bar">
+        <input type="text" id = "chatinput" placeholder="Write messege"><a href="#"><i class="fa fa-arrow-right" aria-hidden="true" onclick="newChat()"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+/*
+function getClients(callback) {
+    console.log("getting clients");
+    var usersUrl = "http://52.202.46.197:3000/load";
+    //var params = userId;
+    var xhttp = new XMLHttpRequest(); 
+    
+    //xhttp.addEventListener('load', callback);
+    
+    //xhttp.open("GET", usersUrl + params, true);
+    //xhttp.open("GET", usersUrl, true);
+    //xhttp.setRequestHeader("Content-type", "text/html");
+    xhttp.onreadystatechange = function() { 
+        if (xhttp.readyState == 4 && xhttp.status == 200)
+            callback(xhttp.responseText);
+    }
+    xhttp.open("GET", usersUrl, true);
+    xhttp.send();
+    console.log("got a response fom the server: " + this.responseText);
+}
+*/
+
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+function myFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+
+        }
+    }
+}
+
+/*
+// Create a new phone number in contact list
+function loadElement(element) {
+  //alert("element is: " + element);
+  var ul;
+  var li = document.createElement("li");
+  var inputValue = element;
+  li.id = inputValue;
+  var t = document.createTextNode(inputValue);
+  //li.onclick = function() { alert('blah'); };
+  li.appendChild(t);
+  li.onclick = function() { updateChatBox(inputValue); };
+  document.getElementById("myUL").appendChild(li);
+}
+*/
+
+
+// Create a all phone numbers into the contact list
+function loadElement2(element) {
+  console.log("got the contacts")
+  console.log(element);
+
+  for (var cCount = 0; cCount < element.length; cCount++){
+    var inputValue = element[cCount].phoneNumberRecieve;
+    console.log("got contact: " + inputValue);
+    if(inputValue != null)
+    {
+
+      /*
+      //var ul;
+      var li = document.createElement("li");
+      li.id = inputValue; 
+      var t = document.createTextNode(inputValue);
+      //li.onclick = function() { alert('blah'); };
+      li.onclick = function() { updateChatBox(inputValue); };
+      li.appendChild(t);
+      document.getElementById("myUL").appendChild(li);
+      */
+      createElement(inputValue);
+    }
+  }
+}
+
+
+// Create a new phone number in contact list; want to update this function name
+function createElement(number) {
+  var ul;
+  var li = document.createElement("li");
+  var inputValue = number;
+  li.id = inputValue;
+  var t = document.createTextNode(inputValue);
+  //li.onclick = function() { alert('blah'); };
+  li.onclick = function() { updateChatBox(inputValue); };
+  li.appendChild(t);
+  document.getElementById("myUL").appendChild(li);
+}
+
+
+// Create a new phone number in contact list; want to update this function name
+function newElement() {
+  var ul;
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("myInput2").value;
+  li.id = inputValue;
+  var t = document.createTextNode(inputValue);
+  //li.onclick = function() { alert('blah'); };
+  li.onclick = function() { updateChatBox(inputValue); };
+  li.appendChild(t);
+  
+  if (inputValue === '') {
+    alert("You must enter a phone number");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+     socket.emit('saveContact', { userId: "jim", password: "daman", phoneNumberRecieve: inputValue, message: ""});
+   
+  }
+  document.getElementById("myInput2").value = ""; 
+}
+
+
+//For opening nd closing cha window
+$(document).ready(function(){
+      $(".left-first-section").click(function(){
+            $('.main-section').toggleClass("open-more");
+        });
+    });
+    $(document).ready(function(){
+      $(".fa-minus").click(function(){
+            $('.main-section').toggleClass("open-more");
+        });
+    });
+
+// Add a chat to the chat window and save the iteam in the contacts list
+function newChat() {
+  var ul;
+  var li = document.createElement("li");
+  //var li2 = document.createElement("li");
+  var div = document.createElement("div");
+  //var div2 = document.createElement("div");
+  var p = document.createElement("P");
+  //var p2 = document.createElement("P");
+  div.className = "right-chat";
+  //div2.className = "right-chat";
+
+
+  var inputValue = document.getElementById("chatinput").value;
+  var t = document.createTextNode(inputValue);
+  //var t2 = document.createTextNode(inputValue);
+  var msg = "~#^zQl2" + inputValue;
+  p.appendChild(t);
+  //p2.appendChild(t2);
+  
+  
+  if (inputValue === '') {
+    //alert("You must enter a message before sending");
+  } else {
+    div.appendChild(p);
+    li.appendChild(div);
+    document.getElementById("myUL2").appendChild(li);
+    document.getElementById("chatinput").value =("");
+
+    //div2.appendChild(p2);
+    //li2.appendChild(div2);
+
+    //save the chat in the block
+    //var elmID = document.getElementById("chatTile").value;
+    var elmID = document.getElementById("chatTile").innerHTML;
+    //alert("adding chat to Elm Id: " + elmID)
+    //li2.style.display = 'none';
+    //document.getElementById(elmID).appendChild(li2);
+
+    console.log("input Value: " + inputValue);
+    //Insert chat into he DB
+    //get the phone nnumber
+    var number  = document.getElementById("chatTile").innerHTML
+   
+    socket.emit('saveChats', { userId: "jim", password: "daman", phoneNumberRecieve: number, message: msg});
+    
+  }
+  //document.getElementById("myInput2").value = "";
+}
+
+//On eneter key send the chat message
+document.getElementById("chatinput")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        //document.getElementById("id_of_button").click();
+        //newElement();f
+        newChat();
+    }
+});
+
+//loadChats('~#^zQl1this is the left aligned message~#^zQl2this is the right aliggned emssage');
+
+//Not finished, adds all chat element to the chat window from a DB query
+function loadChats(input) {
+  console.log("loading message: " + input)
+  
+  var message;
+  //split the input
+  var messages = input.split("~#^");
+  //console.log(messages.length);
+  
+
+  for (var mCount = 1; mCount < messages.length; mCount++){
+    var ul;
+    var li = document.createElement("li");
+    var div = document.createElement("div");
+    var p = document.createElement("P");
+
+    if (messages[mCount].startsWith("zQl1")){
+        div.className = "left-chat";
+    }
+    else{
+        div.className = "right-chat";
+    }
+    message = messages[mCount].slice(4)
+    //console.log(messages[mCount]);
+    //message = messages[i].slice(4);
+
+    var t = document.createTextNode(message);
+    p.appendChild(t);
+    div.appendChild(p);
+    li.appendChild(div);
+    document.getElementById("myUL2").appendChild(li);
+    
+  } 
+
+}  
+ 
+//think this is for hitting enter on adding a new number
+document.getElementById("myInput2")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        //document.getElementById("id_of_button").click();
+        //newElement();f
+        newElement();
+    }
+});  
+
+//update chat number  
+function updateChatBox(inputValue){
+   console.log("requesting chat for #: " + inputValue);
+   document.getElementById("chatTile").innerHTML = inputValue;
+
+   //clear current values
+   document.getElementById("myUL2").innerHTML = '';
+
+   socket.emit('loadChats', { phoneNumber: inputValue});
+
+   /*
+   // Get the <ul> element with id="myList"
+   //rightChat("concept");
+   //for each element sae
+   //var c = document.getElementById("inputValue");
+   //var c = document.getElementById("myUL3").childNodes;
+   
+
+    var txt = "";
+    var i;
+    rightChat("test elements: " + c.length);
+
+    for (i = 0; i < c.length; i++) {
+        //txt = txt + c[i].value + "<br>";
+        rightChat("test: " + i);
+    }
+    */
+    
+}
+
+
+//Sockets
+var socket = io();
+
+
+socket.emit('loadContacts');
+
+
+socket.on('welcome', function(data) {
+                //addMessage(data.message);
+                // Respond with a message including this clients' id sent from the server
+ //socket.emit('i am client', {data: 'foo!', id: data.id});
+});
+
+
+//maybe don't need this anymore
+socket.on('time', function(data) {
+ loadElement(data.time);                
+});
+
+//when loading contacts
+socket.on('loadingContacts', function(data) {
+  loadElement2(data.contacts);                
+});
+
+//when loading sms chats for a contact
+socket.on('loadingChats', function(data) {
+  //console.log("chat messages");
+  //console.log(data);
+  //console.log("chat message: " + data.chats[0].message);
+  loadChats(data.chats[0].message);                
+});
+
+socket.on('error', console.error.bind(console));
+socket.on('message', console.log.bind(console));
+
+//socket.disconnect();
+
+//socket.emit('chatSend', { phoneNumber: '7036554116', message: "chating with jason"});
+
+</script>
+</footer>
+<!-- Footer section --> 
+<!-- JS FILES --> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.flexslider-min.js"></script> 
+<script src="js/jquery.fancybox.pack.js"></script> 
+<script src="js/retina.min.js"></script> 
+<script src="js/modernizr.js"></script> 
+<script src="js/main.js"></script> 
+<script type="text/javascript" src="js/jquery.contact.js"></script>
+</body>
+</html>
